@@ -4,6 +4,7 @@
 #' NC_010443.5 39157405 39157428 to get the NCBI URL of the fasta of the region plus
 #' 250nt upstream and downstream of the coordinates.
 #'
+#' @import tibble
 #' @param coord_table: a dataframe of genomics coordinates containing the columns:
 #'  "Name" - a reference name or tag for each of the coordinates,
 #'  'NCBI_ID' - the NCBI reference sequence ID (e.g. NC_010443.5),
