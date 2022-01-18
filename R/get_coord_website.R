@@ -24,15 +24,20 @@
 #'   "target2", "chr16", "NC_010458.4", 27277933, 27277956,
 #'   "target3", "chr3", "NC_010445.4", 46206427, 46206449,
 #' )
-#' weblist <- GetCoordWebsite(coord_table = dt, flank_n = 250)
-#'
-#'
-GetCoordWebsite <- function(coord_table = coord_table, flank_n = 250 ) {
-  web_list <- lapply(seq_along(coord_table$Name), function(i) {
+#' get_coord_website(coord_table = dt, flank_n = 250)
+get_coord_website <- function(coord_table = coord_table, flank_n = 250) {
+  weblist <- lapply(seq_along(coord_table$Name), function(i) {
     id <- coord_table$NCBI_ID[i]
     start <- as.numeric(coord_table$start[i]) - 250
     end <- as.numeric(coord_table$end[i]) + 250
-    website <- paste0("https://www.ncbi.nlm.nih.gov/nuccore/", id,"?report=fasta&from=", start, "&to=", end)
+    website <- paste0(
+      "https://www.ncbi.nlm.nih.gov/nuccore/",
+      id,
+      "?report=fasta&from=",
+      start,
+      "&to=",
+      end
+    )
     website
   })
   names(weblist) <- coord_table$Name
