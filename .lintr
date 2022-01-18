@@ -1,4 +1,4 @@
 linters: with_defaults(
-  line_length_linter(90),
+  line_length_linter(120),
   no_tab_linter = NULL
   )
