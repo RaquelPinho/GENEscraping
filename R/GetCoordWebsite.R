@@ -5,20 +5,20 @@
 #' 250nt upstream and downstream of the coordinates.
 #'
 #' @import tibble
-#' @param coord_table: a dataframe of genomics coordinates containing the columns:
+#' @param coord_table a dataframe of genomics coordinates containing the columns:
 #'  "Name" - a reference name or tag for each of the coordinates,
 #'  'NCBI_ID' - the NCBI reference sequence ID (e.g. NC_010443.5),
 #'  "start" - the coordinate for the start position ,
 #'  "end" - the coordinate for the end position.
-#' @param flank_n: the number of nucleotides flanking upstream and downstream the
+#' @param flank_n the number of nucleotides flanking upstream and downstream the
 #' coordinates given (default = 250).
 #'
-#' @return a list of URLs containing the fasta sequence of the coordinates.
+#' @return listweb a list of URLs containing the fasta sequence of the coordinates.
 #' @export
 #'
 #' @examples
 #' library("tibble")
-#' dt <- tribble(
+#' dt <- tibble::tribble(
 #'   ~Name, ~Chr, ~NCBI_ID, ~start, ~end,
 #'   "target1", "chr1", "NC_010443.5", 39157405, 39157425,
 #'   "target2", "chr16", "NC_010458.4", 27277933, 27277956,

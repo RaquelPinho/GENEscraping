@@ -7,17 +7,17 @@
 GetCoordWebsite(coord_table = coord_table, flank_n = 250)
 }
 \arguments{
-\item{coord_table:}{a dataframe of genomics coordinates containing the columns:
+\item{coord_table}{a dataframe of genomics coordinates containing the columns:
 "Name" - a reference name or tag for each of the coordinates,
 'NCBI_ID' - the NCBI reference sequence ID (e.g. NC_010443.5),
 "start" - the coordinate for the start position ,
 "end" - the coordinate for the end position.}
 
-\item{flank_n:}{the number of nucleotides flanking upstream and downstream the
+\item{flank_n}{the number of nucleotides flanking upstream and downstream the
 coordinates given (default = 250).}
 }
 \value{
-a list of URLs containing the fasta sequence of the coordinates.
+listweb a list of URLs containing the fasta sequence of the coordinates.
 }
 \description{
 This function uses a dataframe of genomic coordinates such as:
@@ -26,7 +26,7 @@ NC_010443.5 39157405 39157428 to get the NCBI URL of the fasta of the region plu
 }
 \examples{
 library("tibble")
-dt <- tribble(
+dt <- tibble::tribble(
   ~Name, ~Chr, ~NCBI_ID, ~start, ~end,
   "target1", "chr1", "NC_010443.5", 39157405, 39157425,
   "target2", "chr16", "NC_010458.4", 27277933, 27277956,
