@@ -26,8 +26,8 @@
 #'
 #'
 get_fasta <- function(weblist = weblist, coord_table = NULL, flank_n = 250,
-                      feature = "feature", verbose = TRUE, port = 4552L,
-                      chromever = '94.0.4606.113', check = TRUE, browser = "chrome" ) {
+                      feature = "//pre", verbose = TRUE, port = 4552L,
+                      chromever = '94.0.4606.113', check = TRUE, browser = c("chrome" ) {
   if (is.null(weblist)) {
     if (is.null(coord_table)) {
       stop("Neither a list of URLs or a table of genomic coordinates were given!")
@@ -35,9 +35,10 @@ get_fasta <- function(weblist = weblist, coord_table = NULL, flank_n = 250,
       weblist <- get_coord_website(coord_table = coord_table, flank_n = flank_n)
     }
   } else {
-    rD <-RSelenium::rsDriver(verbose = TRUE,
-                   port = 5557L,
-                   chromever = '94.0.4606.113',
+    rD <- RSelenium::rsDriver(verbose = TRUE,
+                   port = 4445L,
+                   browser = "firefox",
+                   # chromever = '94.0.4606.113',
                    check = TRUE)
     remDr <- rD$client
     fasta_list<- lapply(seq_along(weblist),function(i) {
@@ -55,10 +56,11 @@ get_fasta <- function(weblist = weblist, coord_table = NULL, flank_n = 250,
         rvest::html_nodes("body") %>%
         xml2::xml_find_all(feature) %>%
         rvest::html_text()
+      return(fasta)
     }
     fasta_name <- gsub("\n.*", "",fasta)
     fasta_seq <- mgsub::mgsub(fasta, c(fasta_name, "\n"), c("", ""))
-    title_fasta <- paste0(fasta_name," ", Target)
+    title_fasta <- paste0(Target, " ", fasta_name)
     fasta_l <- list(title_fasta, fasta_seq)
     fasta_l
 
