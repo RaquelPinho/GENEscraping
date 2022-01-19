@@ -13,7 +13,14 @@
 #'
 #'
 #'
-#' @return
+#' @return list of genomic sequences referent to the urls/coordinates given by
+#' the user and can be used to write .fasta files using the function `write_fasta`.
+#'
+#' @seealso
+#' * [write_fasta()] write .fasta files from a character list of sequences.
+#' * [get_coord_website()] use genomic coordinates to find the associated NCBI urls.
+#' * [tag_fasta()] mark the target region for the off target region.
+#' For rhAmpSeq, panel design.
 #' @export
 #'
 #' @examples
@@ -22,10 +29,13 @@
 #'   target2 = "https://www.ncbi.nlm.nih.gov/nuccore/NC_010458.4?report=fasta&from=27277683&to=27278206",
 #'   target3 = "https://www.ncbi.nlm.nih.gov/nuccore/NC_010445.4?report=fasta&from=46206177&to=46206699"
 #' )
-#' get_fasta(weblist = weblist, feature = feature)
+#' get_fasta(weblist = weblist, browser = "chrome", port = 4455L )
+#'
 get_fasta <- function(weblist = weblist, coord_table = NULL, flank_n = 250,
                       feature = "//pre", verbose = TRUE, port = 4552L,
-                      chromever = "97.0.4692.71", check = TRUE, browser = c("chrome", "firefox", "phantomjs", "internet explorer"), version = "latest", geckover = "latest") {
+                      chromever = "97.0.4692.71", check = TRUE,
+                      browser = c("chrome", "firefox", "phantomjs", "internet explorer"),
+                      version = "latest", geckover = "latest") {
   if (is.null(weblist)) {
     if (is.null(coord_table)) {
       stop("Neither a list of URLs or a table of genomic coordinates were given!")
@@ -48,7 +58,7 @@ get_fasta <- function(weblist = weblist, coord_table = NULL, flank_n = 250,
       chromever = chromever,
       check = TRUE
     )
-    remdr <- rD$client
+    remdr <- rd$client
     fasta_list <- lapply(seq_along(weblist), function(i) {
       url_ncbi <- weblist[[i]]
       remdr$navigate(url_ncbi)

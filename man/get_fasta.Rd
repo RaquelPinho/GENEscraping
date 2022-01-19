@@ -11,16 +11,19 @@ get_fasta(
   feature = "//pre",
   verbose = TRUE,
   port = 4552L,
-  chromever = "94.0.4606.113",
+  chromever = "97.0.4692.71",
   check = TRUE,
-  browser = c("chrome", "firefox")
+  browser = c("chrome", "firefox", "phantomjs", "internet explorer"),
+  version = "latest",
+  geckover = "latest"
 )
 }
 \arguments{
 \item{weblist}{a list of URLs containing the NCBI website of the fasta sequence
 of genomic regions.}
 
-\item{coord_table}{a dataframe of genomics coordinates containing the columns:
+\item{coord_table}{a dataframe or a .csv file of genomics coordinates
+containing the columns:
 "Name" - a reference name or tag for each of the coordinates,
 'NCBI_ID' - the NCBI reference sequence ID (e.g. NC_010443.5),
 "start" - the coordinate for the start position ,
@@ -46,9 +49,19 @@ versions of associated drivers (chromever, geckover, phantomver,
 iedrver). If new versions are available they will be downloaded.}
 
 \item{browser}{Which browser to start}
+
+\item{version}{what version of Selenium Server to run. Default = "latest"
+which runs the most recent version. To see other version currently
+sourced run binman::list_versions("seleniumserver")}
+
+\item{geckover}{what version of Gecko driver to run. Default = "latest"
+which runs the most recent version. To see other version currently
+sourced run binman::list_versions("geckodriver"), A value of NULL
+excludes adding the firefox browser to Selenium Server.}
 }
 \value{
-
+list of genomic sequences referent to the urls/coordinates given by
+the user and can be used to write .fasta files using the function \code{write_fasta}.
 }
 \description{
 This function use RSelenium to open NCBI urls and extract the
@@ -57,11 +70,18 @@ chosen to retrieve the information.
 }
 \examples{
 weblist <- list(
-target1 = "https://www.ncbi.nlm.nih.gov/nuccore/NC_010443.5?report=fasta&from=39157155&to=39157675",
-target2 = "https://www.ncbi.nlm.nih.gov/nuccore/NC_010458.4?report=fasta&from=27277683&to=27278206",
-target3 = "https://www.ncbi.nlm.nih.gov/nuccore/NC_010445.4?report=fasta&from=46206177&to=46206699"
+  target1 = "https://www.ncbi.nlm.nih.gov/nuccore/NC_010443.5?report=fasta&from=39157155&to=39157675",
+  target2 = "https://www.ncbi.nlm.nih.gov/nuccore/NC_010458.4?report=fasta&from=27277683&to=27278206",
+  target3 = "https://www.ncbi.nlm.nih.gov/nuccore/NC_010445.4?report=fasta&from=46206177&to=46206699"
 )
-get_fasta(weblist = weblist, feature = feature)
+get_fasta(weblist = weblist, browser = "chrome", port = 4455L )
 
-
+}
+\seealso{
+\itemize{
+\item \code{\link[=write_fasta]{write_fasta()}} write .fasta files from a character list of sequences.
+\item \code{\link[=get_coord_website]{get_coord_website()}} use genomic coordinates to find the associated NCBI urls.
+\item \code{\link[=tag_fasta]{tag_fasta()}} mark the target region for the off target region.
+For rhAmpSeq, panel design.
+}
 }

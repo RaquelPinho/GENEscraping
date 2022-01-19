@@ -33,6 +33,7 @@ devtools::check()
 rename_files("GetCoordWebsite", "get_coord_website")
 devtools::document()
 usethis::use_r("get_coord_website")
+usethis::use_package("utils")
 usethis::use_git(message = "changed convetion and renamed function.")
 
 ## check formating
@@ -66,3 +67,4 @@ lintr::lint_package()
 styler::style_file("R/get_fasta.R")
 usethis::use_git()
 devtools::document()
+devtools::check()

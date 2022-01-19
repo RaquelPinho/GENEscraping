@@ -7,7 +7,8 @@
 get_coord_website(coord_table = coord_table, flank_n = 250)
 }
 \arguments{
-\item{coord_table}{a dataframe of genomics coordinates containing the columns:
+\item{coord_table}{a dataframe or a .csv file of genomics coordinates
+containing the columns:
 "Name" - a reference name or tag for each of the coordinates,
 'NCBI_ID' - the NCBI reference sequence ID (e.g. NC_010443.5),
 "start" - the coordinate for the start position ,
@@ -33,4 +34,5 @@ dt <- tibble::tribble(
   "target3", "chr3", "NC_010445.4", 46206427, 46206449
 )
 get_coord_website(coord_table = dt, flank_n = 250)
+
 }
