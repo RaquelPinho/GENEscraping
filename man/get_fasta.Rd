@@ -8,12 +8,12 @@ get_fasta(
   weblist = weblist,
   coord_table = NULL,
   flank_n = 250,
-  feature = "feature",
+  feature = "//pre",
   verbose = TRUE,
   port = 4552L,
-  chromever = "latest",
+  chromever = "94.0.4606.113",
   check = TRUE,
-  browser = "chrome"
+  browser = c("chrome", "firefox")
 )
 }
 \arguments{

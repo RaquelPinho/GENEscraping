@@ -18,16 +18,14 @@
 #'
 #' @examples
 #' weblist <- list(
-#' target1 = "https://www.ncbi.nlm.nih.gov/nuccore/NC_010443.5?report=fasta&from=39157155&to=39157675",
-#' target2 = "https://www.ncbi.nlm.nih.gov/nuccore/NC_010458.4?report=fasta&from=27277683&to=27278206",
-#' target3 = "https://www.ncbi.nlm.nih.gov/nuccore/NC_010445.4?report=fasta&from=46206177&to=46206699"
+#'   target1 = "https://www.ncbi.nlm.nih.gov/nuccore/NC_010443.5?report=fasta&from=39157155&to=39157675",
+#'   target2 = "https://www.ncbi.nlm.nih.gov/nuccore/NC_010458.4?report=fasta&from=27277683&to=27278206",
+#'   target3 = "https://www.ncbi.nlm.nih.gov/nuccore/NC_010445.4?report=fasta&from=46206177&to=46206699"
 #' )
 #' get_fasta(weblist = weblist, feature = feature)
-#'
-#'
 get_fasta <- function(weblist = weblist, coord_table = NULL, flank_n = 250,
                       feature = "//pre", verbose = TRUE, port = 4552L,
-                      chromever = '94.0.4606.113', check = TRUE, browser = c("chrome", "firefox")) {
+                      chromever = "94.0.4606.113", check = TRUE, browser = c("chrome", "firefox")) {
   if (is.null(weblist)) {
     if (is.null(coord_table)) {
       stop("Neither a list of URLs or a table of genomic coordinates were given!")
@@ -36,46 +34,46 @@ get_fasta <- function(weblist = weblist, coord_table = NULL, flank_n = 250,
     }
   } else {
     if (browser == "chrome") {
-      port = 9515L
-      chromever = "97.0.4692.71"
+      port <- 9515L
+      chromever <- "97.0.4692.71"
     }
 
     if (browser == "firefox") {
-      port = 4555L
-      chromever = NULL
+      port <- 4555L
+      chromever <- NULL
     }
-    rD <- RSelenium::rsDriver(verbose = TRUE,
-                   port = port,
-                   browser = browser,
-                   chromever = chromever,
-                   check = TRUE)
-    remDr <- rD$client
-    fasta_list<- lapply(seq_along(weblist),function(i) {
-    urlNCBI <- weblist[[i]]
-    remDr$navigate(urlNCBI)
-    date_time <- Sys.time()
-    while((as.numeric(Sys.time()) - as.numeric(date_time)) < 5){
-      page_source <- remDr$getPageSource()
-      if (length(feature) > 1) {
-        feature = feature[i]
+    rd <- RSelenium::rsDriver(
+      verbose = TRUE,
+      port = port,
+      browser = browser,
+      chromever = chromever,
+      check = TRUE
+    )
+    remdr <- rD$client
+    fasta_list <- lapply(seq_along(weblist), function(i) {
+      url_ncbi <- weblist[[i]]
+      remdr$navigate(url_ncbi)
+      date_time <- Sys.time()
+      while ((as.numeric(Sys.time()) - as.numeric(date_time)) < 5) {
+        page_source <- remdr$getPageSource()
+        if (length(feature) > 1) {
+          feature <- feature[i]
+        }
+        Target <- names(weblist)[i]
+
+        fasta <- rvest::read_html(page_source[[1]]) %>%
+          rvest::html_nodes("body") %>%
+          xml2::xml_find_all(feature) %>%
+          rvest::html_text()
+        fasta
       }
-      Target <- names(weblist)[i]
-
-      fasta <- rvest::read_html(page_source[[1]]) %>%
-        rvest::html_nodes("body") %>%
-        xml2::xml_find_all(feature) %>%
-        rvest::html_text()
-      fasta
-    }
-    fasta_name <- gsub("\n.*", "",fasta)
-    fasta_seq <- mgsub::mgsub(fasta, c(fasta_name, "\n"), c("", ""))
-    title_fasta <- paste0(Target, " ", fasta_name)
-    fasta_l <- list(title_fasta, fasta_seq)
-    fasta_l
-
-  })
-  remDr$close()
-  return(fasta_list)
+      fasta_name <- gsub("\n.*", "", fasta)
+      fasta_seq <- mgsub::mgsub(fasta, c(fasta_name, "\n"), c("", ""))
+      title_fasta <- paste0(Target, " ", fasta_name)
+      fasta_l <- list(title_fasta, fasta_seq)
+      fasta_l
+    })
+    remdr$close()
+    return(fasta_list)
   }
-
 }
