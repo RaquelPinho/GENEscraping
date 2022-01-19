@@ -10,7 +10,11 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
     magrittr,
-    tibble
+    mgsub,
+    RSelenium,
+    rvest,
+    tibble,
+    xml2
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
