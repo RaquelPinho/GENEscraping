@@ -2,3 +2,5 @@
 ^\.Rproj\.user$
 ^GENEscraping\.Rproj$
 ^LICENSE\.md$
+^\.lintr
+^notes$
