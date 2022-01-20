@@ -15,6 +15,7 @@ usethis::use_r("GetCoordWebsite")
 
 ## Create domumentation
 devtools::document()
+library(roxygen2)
 
 ## import package that will be used. Remeber to add it to the DESCRIPTION file
 use_this::use_package("tibble")
@@ -72,3 +73,8 @@ devtools::check()
 ## Making test
 usethis::use_test("get_fasta")
 testthat::test_file("./tests/testthat/test-get_fasta.R")
+testthat::test_file("./tests/testthat/test-get_coord_website.R")
+
+
+## Making the write_fasta function
+# this function uses

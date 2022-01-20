@@ -25,3 +25,13 @@ This function uses a dataframe of genomic coordinates such as:
 NC_010443.5 39157405 39157428 to get the NCBI URL of the fasta of the region plus
 250nt upstream and downstream of the coordinates.
 }
+\examples{
+library("tibble")
+dt <- tibble::tribble(
+  ~Name, ~Chr, ~NCBI_ID, ~start, ~end,
+  "target1", "chr1", "NC_010443.5", 39157405, 39157425,
+  "target2", "chr16", "NC_010458.4", 27277933, 27277956,
+  "target3", "chr3", "NC_010445.4", 46206427, 46206449
+)
+get_coord_website(coord_table = dt, flank_n = 250)
+}

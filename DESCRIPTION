@@ -15,6 +15,7 @@ Imports:
     RSelenium,
     rvest,
     tibble,
+    tigger,
     utils,
     xml2
 Suggests: 
