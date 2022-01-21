@@ -7,6 +7,7 @@
 write_fasta(
   fasta_list = fasta_list,
   named = FALSE,
+  contain_flag = TRUE,
   tagged = FALSE,
   combined = TRUE,
   path_to_file = path_to_file,
@@ -25,6 +26,9 @@ the list can be created by the \code{get_fasta} function.}
 \item{named}{logical if TRUE the header of the region in the .fasta file will be created
 using the names of the list. When FALSE, the header will be creating from the first
 element of each internal list.}
+
+\item{contain_flag}{if the name on the first elements of the lists already contain
+the .fasta header tag ">" .}
 
 \item{tagged}{logical if TRUE the sequence written in the .fasta file will be taken
 from the third element of each internal list. If FALSE, the sequence will be taken
