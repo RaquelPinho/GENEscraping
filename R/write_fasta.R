@@ -10,7 +10,7 @@
 #' the list can be created by the `get_fasta` function.
 #' @param named logical if TRUE the header of the region in the .fasta file will be created
 #' using the names of the list. When FALSE, the header will be creating from the first
-#' element of each internal list.
+#' element of each internal list. It overwrites the `contain_flag` to FALSE.
 #' @param tagged logical if TRUE the sequence written in the .fasta file will be taken
 #' from the third element of each internal list. If FALSE, the sequence will be taken
 #' from second element. The `tag_fasta` file can create a tagged sequence.
@@ -74,7 +74,7 @@ write_fasta <- function(fasta_list = fasta_list, named = FALSE, contain_flag = T
   })
 
   if (combined == FALSE) {
-    for (i in seq_along(seq)) {
+    for (i in seq_along(fasta_file)) {
       tigger::writeFasta(named_sequences = fasta_file[i], file = path_to_file[i], append = FALSE, width = 60)
     }
   } else {

@@ -25,7 +25,7 @@ the list can be created by the \code{get_fasta} function.}
 
 \item{named}{logical if TRUE the header of the region in the .fasta file will be created
 using the names of the list. When FALSE, the header will be creating from the first
-element of each internal list.}
+element of each internal list. It overwrites the \code{contain_flag} to FALSE.}
 
 \item{contain_flag}{if the name on the first elements of the lists already contain
 the .fasta header tag ">" .}

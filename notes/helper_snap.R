@@ -1,7 +1,3 @@
-testdata_dir <- file.path(system.file(paste0("extdata/testdata/"), package = "GENEscraping"))
-test_fastalist <- file.path(testdata_dir, "fasta_list.RDS")
-fasta_list <- readRDS(test_fastalist)
-path_to_file <- "./inst/extdata/testdata/fasta_list.fasta"
 ## Helper function to create the path to the snapshot file for testing
 write_fasta <- function(fasta_list = fasta_list, named = FALSE, contain_flag = TRUE,
                         tagged = FALSE, combined = TRUE, path_to_file = path_to_file,
@@ -47,7 +43,7 @@ write_fasta <- function(fasta_list = fasta_list, named = FALSE, contain_flag = T
   })
 
   if (combined == FALSE) {
-    for (i in seq_along(seq)) {
+    for (i in seq_along(fasta_file)) {
       tigger::writeFasta(named_sequences = fasta_file[i], file = path_to_file[i], append = FALSE, width = 60)
     }
   } else {
@@ -56,8 +52,27 @@ write_fasta <- function(fasta_list = fasta_list, named = FALSE, contain_flag = T
 
   return(invisible(NULL))
 }
-
+# test unamed, untagged and combined list
 write_fasta(fasta_list = fasta_list, path_to_file = path_to_file)
-save_path <- path_to_file
-save_path
-experc
+testdata_dir <- file.path(system.file(paste0("extdata/testdata/"), package = "GENEscraping"))
+test_fastalist <- file.path(testdata_dir, "fasta_list.RDS")
+fasta_list <- readRDS(test_fastalist)
+path_to_file <- "./inst/extdata/testdata/fasta_list.fasta"
+
+# test unamed, untagged and separated list
+path_to_file_seq <- gsub("_list\\.fasta", "", path_to_file)
+path_to_file_seq <- paste0(path_to_file_seq, seq(1,3), '.fasta')
+write_fasta(fasta_list = fasta_list, path_to_file = path_to_file_seq, combined = FALSE)
+
+#test named, untagged and combined
+named_fasta_list <- fasta_list
+names(named_fasta_list) <- paste0("target", seq(1,3))
+path_to_file_n <- "./inst/extdata/testdata/fasta_list_named.fasta"
+write_fasta(fasta_list = named_fasta_list, named = TRUE, path_to_file = path_to_file_n)
+
+#test named, tagged and combined
+named_tag_fasta_list <- named_fasta_list
+names(named__tag_fasta_list) <- paste0("target", seq(1,3))
+path_to_file_n <- "./inst/extdata/testdata/fasta_list_named.fasta"
+write_fasta(fasta_list = named_fasta_list, named = TRUE, path_to_file = path_to_file_n)
+

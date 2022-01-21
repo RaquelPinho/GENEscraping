@@ -89,3 +89,13 @@ devtools::document()
 lintr::lint_package()
 styler::style_file("./tests/testthat/test-write_fasta.R")
 testthat::test_file("./tests/testthat/test-write_fasta.R")
+usethis::use_git("added some tests for the write_fasta, some test data and the helper_snap function")
+devtools::load_all()
+devtools::check()
+
+
+# making tag_fasta  function
+# this will use a data.frame, .csv file or character vector  containig the target
+# sequences in the sequence in the .fasta list to mark the middle of the target
+# region in the sequence as well as check if the target region is in the sequence.
+use_this

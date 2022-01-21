@@ -10,19 +10,21 @@ test_that("The errors and warnings are working.", {
     write_fasta(
       fasta_list = list(
         list("target1", "aaatattttggt"),
-        list("target2", "ggtgtaatgat")),
-      path_to_file = 1),
+        list("target2", "ggtgtaatgat")
+      ),
+      path_to_file = 1
+    ),
     "Error write_fasta: `path_to_file` is not a character vector!"
   )
   expect_error(
     write_fasta(
       fasta_list = list(
         list(">target1", "aaatattttggt"),
-        list(">target2", "ggtgtaatgat")),
+        list(">target2", "ggtgtaatgat")
+      ),
       path_to_file = c("./target1.fasta", "./target2.fasta"), append = TRUE
-    ),
-    "Error write_fasta: the `path_to_file` has length greater than 1 and the
-    `combined` option was selected."
+    ), "Error write_fasta: the `path_to_file` has length greater than 1 and the
+         `combined` option was selected."
   )
   expect_error(
     write_fasta(
@@ -41,5 +43,18 @@ test_that("the function works with unamed and untagged list in combined fasta.",
   test_fastalist <- file.path(testdata_dir, "fasta_list.RDS")
   fasta_list <- readRDS(test_fastalist)
   path_to_file <- "./inst/extdata/testdata/fasta_list.fasta"
-  expect_snapshot_file(write_fasta(fasta_list = fasta_list, path_to_file = path_to_file), path_to_file)
+  expect_snapshot_file(path = path_to_file, "fasta_list.fasta")
+})
+
+test_that("the function works with unamed and unttaged, writing in separate files.", {
+  path_to_file_seq <- gsub("_list\\.fasta", "", path_to_file)
+  path_to_file_seq <- paste0(path_to_file_seq, seq(1, 3), ".fasta")
+  for (i in seq_along(path_to_file_seq)) {
+    expect_snapshot_file(path = path_to_file_seq[i], paste0("fasta", i, ".fasta"))
+  }
+})
+
+test_that("the function works with named but untagged list in combined fasta.", {
+  path_to_file_n <- "./inst/extdata/testdata/fasta_list_named.fasta"
+  expect_snapshot_file(path = path_to_file_n, "fasta_list_named.fasta")
 })
