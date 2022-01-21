@@ -3,5 +3,6 @@
 export("%>%")
 export(get_coord_website)
 export(get_fasta)
+export(write_fasta)
 import(tibble)
 importFrom(magrittr,"%>%")

@@ -77,4 +77,12 @@ testthat::test_file("./tests/testthat/test-get_coord_website.R")
 
 
 ## Making the write_fasta function
-# this function uses
+# this function uses the `write.fasta` function of the tigger package
+# an use a list of fasta sequences where each element of the list contain 2 elements.
+# the first element is the tittle of the fasta sequence and the second is the sequence.
+usethis::use_r("write_fasta")
+usethis::use_package("tigger")
+usethis::use_git("Added the get_fasta test and started the write_fasta function and test")
+usethis::use_test("write_fasta")
+usethis::use_git("make the write_fasta and test-write_fasta files")
+devtools::document()
