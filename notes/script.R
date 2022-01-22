@@ -98,4 +98,13 @@ devtools::check()
 # this will use a data.frame, .csv file or character vector  containig the target
 # sequences in the sequence in the .fasta list to mark the middle of the target
 # region in the sequence as well as check if the target region is in the sequence.
-use_this
+usethis::use_r("tag_fasta")
+usethis::use_git("finished the write_fasta function and the tests.")
+devtools::document()
+usethis::use_package("stringr")
+usethis::use_package("Biostrings")
+usethis::use_test("tag_fasta")
+lintr::lint_package()
+styler::style_file("R/tag_fasta.R")
+styler::style_file("tests/testthat/test-tag_fasta.R")
+devtools::load_all()

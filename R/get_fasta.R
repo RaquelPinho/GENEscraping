@@ -11,7 +11,7 @@
 #' @inheritParams RSelenium::rsDriver
 #' @inheritParams get_coord_website
 #'
-#'
+#' @import get_coord_website
 #'
 #' @return list of genomic sequences referent to the urls/coordinates given by
 #' the user and can be used to write .fasta files using the function `write_fasta`.
