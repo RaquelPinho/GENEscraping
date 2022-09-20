@@ -40,21 +40,50 @@ test_that("The errors and warnings are working.", {
 
 test_that("the function works with unamed and untagged list in combined fasta.", {
   testdata_dir <- file.path(system.file(paste0("extdata/testdata/"), package = "GENEscraping"))
-  test_fastalist <- file.path(testdata_dir, "fasta_list.RDS")
-  fasta_list <- readRDS(test_fastalist)
-  path_to_file <- "./inst/extdata/testdata/fasta_list.fasta"
-  expect_snapshot_file(path = path_to_file, "fasta_list.fasta")
-})
+  test_fasta_list <- file.path(testdata_dir, "fasta_list.RDS")
+  fasta_list <- readRDS(test_fasta_list)
+  test_fasta_file <- file.path(testdata_dir, "fasta_list.fasta")
+  file = tempfile(pattern = "fasta_list", tempdir(), fileext = ".fasta" )
+  expect_false(file.exists(file))
+  write_fasta(fasta_list = fasta_list, path_to_file = file  )
+  expect_true(file.exists(file))
+  expect_equal(file.info(file)$size, file.info(test_fasta_file)$size)
+  on.exit(unlink(file))
+  })
 
 test_that("the function works with unamed and unttaged, writing in separate files.", {
-  path_to_file_seq <- gsub("_list\\.fasta", "", path_to_file)
-  path_to_file_seq <- paste0(path_to_file_seq, seq(1, 3), ".fasta")
-  for (i in seq_along(path_to_file_seq)) {
-    expect_snapshot_file(path = path_to_file_seq[i], paste0("fasta", i, ".fasta"))
+  testdata_dir <- file.path(system.file(paste0("extdata/testdata/"),
+                                        package = "GENEscraping"))
+  test_fasta_list <- file.path(testdata_dir, "fasta_list.RDS")
+  fasta_list <- readRDS(test_fasta_list)
+
+  files <- sapply(c("fasta1", "fasta2", "fasta3"), function(name_f) {
+    file <- tempfile(pattern = name_f, tempdir(), fileext = ".fasta" )
+    expect_false(file.exists(file))
+    file
+  })
+  test_files <- sapply(c("fasta1", "fasta2", "fasta3"), function(name_f) {
+    test_file <- file.path(testdata_dir, paste0(name_f, ".fasta"))
+    test_file
+  })
+  write_fasta(fasta_list = fasta_list, combined = FALSE, path_to_file = files)
+  for (i in seq_along(files)) {
+    expect_true(file.exists(files[i]))
+    expect_equal(file.info(files[i])$size, file.info(test_files[i])$size)
+    on.exit(unlink(files[i]))
   }
-})
+  })
 
 test_that("the function works with named but untagged list in combined fasta.", {
-  path_to_file_n <- "./inst/extdata/testdata/fasta_list_named.fasta"
-  expect_snapshot_file(path = path_to_file_n, "fasta_list_named.fasta")
-})
+  testdata_dir <- file.path(system.file(paste0("extdata/testdata/"), package = "GENEscraping"))
+  test_fasta_list <- file.path(testdata_dir, "fasta_list.RDS")
+  fasta_list <- readRDS(test_fasta_list)
+  names(fasta_list) <- paste0('target', c(1:3))
+  test_fasta_file <- file.path(testdata_dir, "fasta_list_named.fasta")
+  file = tempfile(pattern = "fasta_list_named", tempdir(), fileext = ".fasta" )
+  expect_false(file.exists(file))
+  write_fasta(fasta_list = fasta_list, path_to_file = file , named = TRUE )
+  expect_true(file.exists(file))
+  expect_equal(file.info(file)$size, file.info(test_fasta_file)$size)
+  on.exit(unlink(file))
+  })

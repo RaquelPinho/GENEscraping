@@ -11,7 +11,7 @@ get_fasta(
   feature = "//pre",
   verbose = TRUE,
   port = netstat::free_port(),
-  chromever = "97.0.4692.71",
+  chromever = "105.0.5195.52",
   check = TRUE,
   browser = c("chrome", "firefox", "phantomjs", "internet explorer"),
   version = "latest",

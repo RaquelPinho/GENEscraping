@@ -11,8 +11,8 @@
 #' @inheritParams RSelenium::rsDriver
 #' @inheritParams get_coord_website
 #'
-#' @import get_coord_website
-#'
+#' @import RSelenium
+#' @import netstat
 #' @return list of genomic sequences referent to the urls/coordinates given by
 #' the user and can be used to write .fasta files using the function `write_fasta`.
 #'
@@ -38,9 +38,10 @@
 #' }
 get_fasta <- function(weblist = NULL, coord_table = NULL, flank_n = 250,
                       feature = "//pre", verbose = TRUE, port = netstat::free_port(),
-                      chromever = "97.0.4692.71", check = TRUE,
+                      chromever = "105.0.5195.52", check = TRUE,
                       browser = c("chrome", "firefox", "phantomjs", "internet explorer"),
                       version = "latest", geckover = "latest") {
+  port <-  netstat::free_port()
   if (!is.null(weblist)) {
     if (!inherits(weblist, "list")) {
       stop("Error get_fasta: `weblist` is not a list!")

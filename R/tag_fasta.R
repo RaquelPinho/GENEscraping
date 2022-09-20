@@ -24,6 +24,16 @@
 #'
 #' @seealso get_fasta
 #' @examples
+#'
+#' tag_fasta(
+#' fasta_list = list(
+#'   list("target1", "aaatattttggt"),
+#'   list("target2", "ggtgtaatgat")
+#' ),
+#' target = data.frame(target = c("aaatatt", "gtaatg"), cut = c(3, 5)),
+#' tag_site = 4
+#' )
+#'
 tag_fasta <- function(fasta_list = fasta_list,
                       target = NULL,
                       csv = NULL,
@@ -75,7 +85,7 @@ tag_fasta <- function(fasta_list = fasta_list,
     csv = csv
   )
 
-  loc_list <- lapply(seq_along(fasta_list), function(i) {
+    loc_list <- lapply(seq_along(fasta_list), function(i) {
     # making sure there are no gaps in the target region
     if ("-" %in% unlist(strsplit(target, ""))) {
       target <- gsub("-", "", target)
@@ -164,8 +174,10 @@ check_error_tag_fasta <- function(fasta_list = fasta_list, tag_site = tag_site,
 #' function used to extract the sequence of the position tag_site in the target on the
 #' complete sequence
 #'
-#' @param fasta_list
-#' @param loc_list
+#' @param fasta_list a list of lists, each list containing two elements
+#' the name, first element, and a sequence referring to a genomic regions, second
+#' element. This list can be created using `get_fasta`
+#' @param loc_list list of locations calculated in the the tag_fasta
 #'
 #' @return a list of dinucleotide sequences
 get_tag_seq <- function(fasta_list = fasta_list, loc_list = loc_list) {
@@ -180,9 +192,11 @@ get_tag_seq <- function(fasta_list = fasta_list, loc_list = loc_list) {
 
 #' insert_tag
 #'
-#' @param fasta_list
-#' @param loc_list
-#' @param tag_seq_list
+#' @param fasta_list a list of lists, each list containing two elements
+#' the name, first element, and a sequence referring to a genomic regions, second
+#' element. This list can be created using `get_fasta`
+#' @param loc_list list of locations calculated in the the tag_fasta
+#' @param tag_seq_list a list of dinucleotide sequences
 #'
 #' @return the fasta list containing the sequence with and without the tag
 insert_tag <- function(fasta_list = fasta_list, loc_list = loc_list,

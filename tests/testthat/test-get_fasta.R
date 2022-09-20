@@ -45,6 +45,6 @@ test_that("It works with firefox.", {
   u_list <- readRDS(test_urlslist)
   f_list <- readRDS(test_fastalist)
   expect_equal(
-    get_fasta(weblist = u_list, coord_table = NULL, browser = "firefox"), f_list)
+  get_fasta(weblist = u_list, coord_table = NULL, browser = "firefox"), f_list)
 
 })

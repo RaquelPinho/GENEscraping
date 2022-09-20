@@ -1,0 +1,99 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# GENEscraping
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of GENEscraping is to use web scraping to retrieve sequences from genomic regions contained in a table of genomic coordinates in R and write fasta files of the individual sequences or combine in one file. There is also an option to write tags at the middle of the genomic coordinates, on the fasta files to make it suitable for use in the design of rhAmpSeq
+panel primer design. The web scraping functions use [RSelenium](https://github.com/ropensci/RSelenium) to connect to web drivers and retrive web sites information. **WARNING** It will use and open automatically the internet browser chosen.
+
+
+## Installation
+
+You can install the development version of GENEscraping from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("RaquelPinho/GENEscraping")
+```
+
+## Example
+
+This is a basic example of a genomic coordinate table that can be used to retrieve the fasta sequences:
+
+```{r coord_table_ex}
+library(GENEscraping)
+coord_table <- tibble::tribble(
+                              ~Name, ~Chr, ~NCBI_ID, ~start, ~end,
+                              "target1", "chr1", "NC_010443.5", 39157405, 39157425,
+                              "target2", "chr16", "NC_010458.4", 27277933, 27277956,
+                              "target3", "chr3", "NC_010445.4", 46206427, 46206449
+                               )
+knitr::kable(coord_table)
+```
+
+
+In this example table, I am using regions of the porcine genome. To get the list of websites containing the regions in the table you can use the function `get_coord_website`. You can also choose if you want to retrieve the regions as stated in the table or add n nucleotides upstream and downstream of the regions present in the table. In the example, 250 nts were added, flanking the regions on the coordinates.
+
+```{r coord_website}
+weblist <- get_coord_website(coord_table = coord_table, flank_n = 250)
+weblist
+```
+
+After we have the urls for each of the coordinates, we can now collect the fasta sequences.
+This function use RSelenium to open NCBI urls and extract the fasta sequence from them. WARNING! It will automatically open the browser chosen to retrieve the information. You can use the code `binman::list_versions("chromedriver")` to know the most updated version of chrome to use and update the chromever parameter of the get_fasta function.
+ 
+
+```{r get_fasta, echo = FALSE, message = FALSE}
+fasta_list <- get_fasta(weblist = weblist, browser = "chrome", port = 4456L )
+fasta_list
+```
+
+Now that we have the fasta sequences, we can tag the fasta sequence at target locations, for that a target sequence contained in the sequences need to be provided. In this case we will tag the middle point of the target. The tag is a duplication of the 2 nucleotides at the site: AAATGGTCT[TC/TC]GATTAAT. In this case we will use a data.frame containing the sequence at the genomic coordinates on coord_table:
+
+```{r target_table}
+target_table <- tibble::tribble(
+                ~Name,~Chr,~NCBI_ID,~start,~end,~target,
+                "target1","chr1","NC_010443.5",39157405,39157425,"ACACCTCAAAAGGTCTGGAGGGT",
+                "target2","chr16","NC_010458.4",27277933,27277956,"GCACCTCACAGGGTCTTGGAAGG",
+                "target3","chr3","NC_010445.4",46206427,46206449,"GCACCTC-AGAGATCTTGGAGGG"
+)
+target_table
+```
+
+We can use it to tag the lists in the fasta_list:
+
+
+```{r tag_fasta}
+fasta_list_tagged <- tag_fasta(
+                            fasta_list = fasta_list,
+                            target = target_table,
+                            tag_site = 4
+                            )
+fasta_list_tagged
+```
+
+Independently on if the fasta_list is tagged or not you use it to write fasta files using the function `write_fasta`.
+
+```{r write_fasta}
+# write_fasta(fasta_list = fasta_list, named = TRUE, contain_flag = TRUE,
+#                        tagged = FALSE, combined = TRUE, path_to_file = path_to_file,
+#                        width = 60, append = FALSE)
+```
+
+
+

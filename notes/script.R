@@ -110,3 +110,9 @@ styler::style_file("tests/testthat/test-tag_fasta.R")
 devtools::load_all()
 testthat::test_file("tests/testthat/test-tag_fasta.R")
 testthat::test_file("R/tag_fasta.R")
+usethis::use_git("finished the tag_fasta function and its tests")
+
+
+## Try to make a README file with usethis
+usethis::use_readme_rmd()
+devtools::build_readme()
