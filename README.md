@@ -91,12 +91,12 @@ get_fasta function.
     #> [1] "105.0.5195.52 (412c95e518836d8a7d97250d62b29c2ae6a26a85-refs/branch-heads/5195@{#853})"
     #> 
     #> $chrome$userDataDir
-    #> [1] "C:\\Users\\Raque\\AppData\\Local\\Temp\\scoped_dir34536_287840248"
+    #> [1] "C:\\Users\\Raque\\AppData\\Local\\Temp\\scoped_dir3424_1071462490"
     #> 
     #> 
     #> $`goog:chromeOptions`
     #> $`goog:chromeOptions`$debuggerAddress
-    #> [1] "localhost:52974"
+    #> [1] "localhost:61023"
     #> 
     #> 
     #> $networkConnectionEnabled
@@ -141,10 +141,10 @@ get_fasta function.
     #> [1] TRUE
     #> 
     #> $webdriver.remote.sessionid
-    #> [1] "902b183f67199103a18826968c4bd91b"
+    #> [1] "384397d835b392a451ac50e0748f52b3"
     #> 
     #> $id
-    #> [1] "902b183f67199103a18826968c4bd91b"
+    #> [1] "384397d835b392a451ac50e0748f52b3"
     #> [[1]]
     #> [[1]][[1]]
     #> [1] ">NC_010443.5:39157155-39157675 Sus scrofa isolate TJ Tabasco breed Duroc chromosome 1, Sscrofa11.1, whole genome shotgun sequence target1"

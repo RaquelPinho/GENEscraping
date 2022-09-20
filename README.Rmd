@@ -59,7 +59,7 @@ This function use RSelenium to open NCBI urls and extract the fasta sequence fro
  
 
 ```{r get_fasta, echo = FALSE, message = FALSE}
-fasta_list <- get_fasta(weblist = weblist, browser = "chrome", port = 4456L )
+fasta_list <- get_fasta(weblist = weblist, browser = "chrome", port = 4456L, verbose = FALSE )
 fasta_list
 ```
 
