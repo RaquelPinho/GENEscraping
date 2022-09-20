@@ -13,7 +13,7 @@ file. There is also an option to write tags at the middle of the genomic
 coordinates, on the fasta files to make it suitable for use in the
 design of rhAmpSeq panel primer design. The web scraping functions use
 [RSelenium](https://github.com/ropensci/RSelenium) to connect to web
-drivers and retrive web sites information. **WARNING** It will use and
+drivers and retrive web sites information. **WARNING!** It will use and
 open automatically the internet browser chosen.
 
 ## Installation
